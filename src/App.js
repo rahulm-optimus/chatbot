@@ -35,6 +35,10 @@ function App() {
         MuiTextField: {
           styleOverrides: {
             root: {
+              color: "lightGray",
+              "& label": {
+                color: "lightGray",
+              },
               "& label.Mui-focused": {
                 color: "lightBlue",
               },
@@ -45,21 +49,27 @@ function App() {
         MuiOutlinedInput: {
           styleOverrides: {
             notchedOutline: {
+              color: "white",
+              border: ".25rem solid grey",
               borderColor: "grey",
               borderRadius: "16px",
             },
             root: {
               [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-                borderColor: "blue",
+                borderColor: "lightBlue",
               },
               [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-                borderColor: "green",
+                border: ".25rem solid lightBlue",
+              },
+              ["& input"]: {
+                color: "lightGray",
               },
             },
           },
         },
       },
     });
+
   function sendPromptHandler() {
     let promptRecieved = promptRef.current.value;
     if (!promptRecieved) {
@@ -81,6 +91,7 @@ function App() {
   useEffect(() => {
     sendPromptHandler();
   }, [prompt]);
+
   return (
     <div className="App">
       <Box
@@ -90,7 +101,7 @@ function App() {
           justifyContent: "center",
           width: "100%",
           height: "100vh",
-          backgroundColor: "#424242",
+          backgroundColor: "#373A40",
         }}
       >
         <Stack
@@ -101,16 +112,23 @@ function App() {
           <TypeAnimation
             sequence={[
               // Same substring at the start will only be typed out once, initially
-              "Welcome to chat bot ",
+              "Welcome to chatbot 🤖",
               2000, // wait 1s before replacing "Mice" with "Hamsters"
-              "Write your Prompts ",
+              "How can I help you ?",
               2000,
-              "Langchain.js integartion coming soon",
+              "Langchain.js integartion coming soon...",
               2000,
+              "Welcome to chatbot 🤖",
+              2000, // wait 1s before replacing "Mice" with "Hamsters"
             ]}
             wrapper="span"
             speed={50}
-            style={{ fontSize: "2rem", display: "inline-block" }}
+            style={{
+              fontSize: "2rem",
+              display: "inline-block",
+              color: "lightgray",
+              fontWeight: 700,
+            }}
             repeat={4}
           />
 
@@ -124,32 +142,47 @@ function App() {
             }}
           >
             <Stack spacing={4} width={"100%"}>
-              {prompt?.map((value, index) => {
+              {prompt?.map((val, index) => {
                 return (
                   <Stack
                     key={index}
-                    sx={{
-                      backgroundColor:
-                        index % 2 === 0 ? "lightGrey" : "darkGrey",
-                      borderRadius: "16px",
-                    }}
                     direction="row"
-                    justifyContent="flex-end"
+                    justifyContent={index % 2 === 0 ? "flex-start" : "flex-end"}
                     alignItems="center"
                     spacing={1}
                     p={2}
                   >
-                    <Card>
-                      <Typography
-                        sx={{ textWrap: "break-word", width: "50vw" }}
-                        p={2}
-                      >
-                        {value}
-                      </Typography>
-                      <Avatar
-                        alt="user"
-                        src="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                      />
+                    <Card
+                      sx={{
+                        backgroundColor: "lightGrey",
+                        borderRadius: "16px",
+                        display: "flex",
+                        flexDirection:
+                          index % 2 === 0 ? "reverse" : "row-reverse",
+                        borderRight:
+                          index % 2 !== 0 ? ".5rem solid lightGreen" : null,
+                        borderLeft:
+                          index % 2 === 0 ? ".5rem solid lightBlue" : null,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        padding: "8px",
+                        gap: 2,
+                        width: "50vw",
+                      }}
+                    >
+                      <TextField disabled value={val} multiline fullWidth />
+
+                      {index % 2 === 0 ? (
+                        <Avatar
+                          alt="user"
+                          src="https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                        />
+                      ) : (
+                        <Avatar
+                          alt="user"
+                          src="https://images.pexels.com/photos/8566474/pexels-photo-8566474.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        />
+                      )}
                     </Card>
                   </Stack>
                 );
@@ -171,6 +204,7 @@ function App() {
                 endAdornment: (
                   <InputAdornment position="end">
                     <SendIcon
+                      sx={{ color: "white" }}
                       className="sendButton"
                       onClick={sendPromptHandler}
                     />

@@ -7,9 +7,10 @@
 }
 
 :root {
-  --primary-color:#221818;
-  --secondary-color:#654747;
-  --tertiary-color:#976a6a
+  --primary-text-color:#F6F5F2;
+  --primary-bg-color:#221818;
+  --secondary-bg-color:#654747;
+  --tertiary-bg-color:#976a6a;
   
 }
 
@@ -26,6 +27,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .sendButton {
